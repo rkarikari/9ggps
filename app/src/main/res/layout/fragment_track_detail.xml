@@ -201,6 +201,117 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- ═══════════════════════════════════════════════════════════════
+                 Synchronized cursor info bubble
+                 Appears when the user touches either chart. Shows the data
+                 values (distance, speed, elevation, time, progress) at the
+                 exact cursor position, mirrored across both charts and the
+                 mini-map.
+            ════════════════════════════════════════════════════════════════ -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardCursorInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="?attr/colorSecondaryContainer">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="6dp">
+
+                    <!-- Drag-hint label -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="● Cursor position"
+                        android:textSize="10sp"
+                        android:textStyle="italic"
+                        android:textColor="?attr/colorOnSecondaryContainer"
+                        android:alpha="0.7"
+                        android:paddingStart="10dp"
+                        android:layout_marginBottom="4dp"/>
+
+                    <!-- Five stat cells in one row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <!-- Distance -->
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical"
+                            android:gravity="center" android:padding="4dp">
+                            <TextView android:id="@+id/tvCursorDist"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="—" android:textSize="14sp" android:textStyle="bold"
+                                android:textColor="?attr/colorOnSecondaryContainer"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Dist" android:textSize="9sp"
+                                android:textColor="?attr/colorOnSecondaryContainer" android:alpha="0.75"/>
+                        </LinearLayout>
+
+                        <!-- Speed -->
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical"
+                            android:gravity="center" android:padding="4dp">
+                            <TextView android:id="@+id/tvCursorSpeed"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="—" android:textSize="14sp" android:textStyle="bold"
+                                android:textColor="?attr/colorOnSecondaryContainer"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Speed" android:textSize="9sp"
+                                android:textColor="?attr/colorOnSecondaryContainer" android:alpha="0.75"/>
+                        </LinearLayout>
+
+                        <!-- Elevation -->
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical"
+                            android:gravity="center" android:padding="4dp">
+                            <TextView android:id="@+id/tvCursorElev"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="—" android:textSize="14sp" android:textStyle="bold"
+                                android:textColor="?attr/colorOnSecondaryContainer"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Elev" android:textSize="9sp"
+                                android:textColor="?attr/colorOnSecondaryContainer" android:alpha="0.75"/>
+                        </LinearLayout>
+
+                        <!-- Time elapsed -->
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical"
+                            android:gravity="center" android:padding="4dp">
+                            <TextView android:id="@+id/tvCursorTime"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="—" android:textSize="14sp" android:textStyle="bold"
+                                android:textColor="?attr/colorOnSecondaryContainer"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Time" android:textSize="9sp"
+                                android:textColor="?attr/colorOnSecondaryContainer" android:alpha="0.75"/>
+                        </LinearLayout>
+
+                        <!-- Progress -->
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical"
+                            android:gravity="center" android:padding="4dp">
+                            <TextView android:id="@+id/tvCursorProgress"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="—" android:textSize="14sp" android:textStyle="bold"
+                                android:textColor="?attr/colorOnSecondaryContainer"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Done" android:textSize="9sp"
+                                android:textColor="?attr/colorOnSecondaryContainer" android:alpha="0.75"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Elevation chart -->
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="Elevation Profile" android:textSize="14sp" android:textStyle="bold"
