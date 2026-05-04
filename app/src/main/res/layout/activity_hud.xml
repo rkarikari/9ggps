@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF000000">
+
+    <!-- Close button -->
+    <ImageButton
+        android:id="@+id/btnClose"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_close"
+        android:tint="#AAFFFFFF"
+        android:contentDescription="Close HUD"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!-- Big Speed Display (centre) -->
+    <LinearLayout
+        android:id="@+id/layoutBigSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/speedBarContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tvBigSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#FFFFFFFF"
+            android:textSize="120sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-light"
+            android:lineSpacingMultiplier="0.85"/>
+
+        <TextView
+            android:id="@+id/tvSpeedUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="km/h"
+            android:textColor="#AAFFFFFF"
+            android:textSize="24sp"
+            android:letterSpacing="0.1"/>
+    </LinearLayout>
+
+    <!-- Speed bar -->
+    <FrameLayout
+        android:id="@+id/speedBarContainer"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="8dp"
+        android:background="#33FFFFFF"
+        app:layout_constraintBottom_toTopOf="@id/navPanel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <View
+            android:id="@+id/speedBarFill"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#FF2196F3"
+            android:scaleX="0"
+            android:transformPivotX="0dp"/>
+    </FrameLayout>
+
+    <!-- Navigation panel -->
+    <LinearLayout
+        android:id="@+id/navPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#CC1565C0"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/statsRow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/ivManeuver"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:src="@drawable/ic_straight"
+            android:tint="#FFFFFFFF"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
+
+            <TextView
+                android:id="@+id/tvNavInstruction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Continue straight"
+                android:textColor="#FFFFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:maxLines="2"/>
+
+            <TextView
+                android:id="@+id/tvNextInstruction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Then: Turn right"
+                android:textColor="#CCFFFFFF"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/tvNavDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 m"
+                android:textColor="#FFFFFFFF"
+                android:textSize="28sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvNavEta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-- min"
+                android:textColor="#CCFFFFFF"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/tvNavRemaining"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 km"
+                android:textColor="#AAFFFFFF"
+                android:textSize="12sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Stats row (bottom) -->
+    <LinearLayout
+        android:id="@+id/statsRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#CC111111"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Altitude -->
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:id="@+id/tvAltitude" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="0 m"
+                android:textColor="#FFFFFFFF" android:textSize="18sp" android:textStyle="bold"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Altitude" android:textColor="#AAFFFFFF" android:textSize="11sp"/>
+        </LinearLayout>
+
+        <!-- Bearing -->
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:id="@+id/tvBearing" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="N"
+                android:textColor="#FFFFFFFF" android:textSize="18sp" android:textStyle="bold"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Heading" android:textColor="#AAFFFFFF" android:textSize="11sp"/>
+        </LinearLayout>
+
+        <!-- Compass -->
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <ImageView android:id="@+id/ivCompassNeedle" android:layout_width="32dp"
+                android:layout_height="32dp" android:src="@drawable/ic_compass"
+                android:tint="#FFFFFFFF"/>
+            <TextView android:id="@+id/tvCompassDir" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="N"
+                android:textColor="#AAFFFFFF" android:textSize="11sp"/>
+        </LinearLayout>
+
+        <!-- Accuracy -->
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:id="@+id/tvAccuracy" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="±0 m"
+                android:textColor="#FFFFFFFF" android:textSize="18sp" android:textStyle="bold"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Accuracy" android:textColor="#AAFFFFFF" android:textSize="11sp"/>
+        </LinearLayout>
+
+        <!-- Pressure / Baro -->
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:id="@+id/tvPressure" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="-- hPa"
+                android:textColor="#FFFFFFFF" android:textSize="14sp" android:textStyle="bold"/>
+            <TextView android:id="@+id/tvBaroAlt" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="-- m baro"
+                android:textColor="#AAFFFFFF" android:textSize="11sp"/>
+        </LinearLayout>
+
+        <!-- Record stats -->
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:id="@+id/tvRecordDistance" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="0.00 km"
+                android:textColor="#FFFFFFFF" android:textSize="14sp" android:textStyle="bold"/>
+            <TextView android:id="@+id/tvRecordTime" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="0:00"
+                android:textColor="#AAFFFFFF" android:textSize="11sp"/>
+            <TextView android:id="@+id/tvAvgSpeed" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="0 avg"
+                android:textColor="#AAFFFFFF" android:textSize="10sp"/>
+            <TextView android:id="@+id/tvMaxSpeed" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="0 max"
+                android:textColor="#AAFFFFFF" android:textSize="10sp"/>
+        </LinearLayout>
+
+        <!-- Controls -->
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:orientation="vertical" android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/btnRecord"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/bg_circle_dark"
+                android:src="@drawable/ic_record"
+                android:tint="#FFFFFFFF"
+                android:contentDescription="Record"
+                android:layout_marginBottom="6dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStopNav"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:text="Stop Nav"
+                android:textSize="10sp"
+                android:visibility="gone"
+                app:backgroundTint="@color/accent_red"/>
+
+            <TextView
+                android:id="@+id/tvRecordingStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Not recording"
+                android:textColor="#AAFFFFFF"
+                android:textSize="9sp"
+                android:layout_marginTop="2dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

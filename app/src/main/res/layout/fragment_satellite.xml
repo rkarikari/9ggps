@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright © R.N.K 9G5AR RadioZport -->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="?attr/colorSurface">
+
+    <!-- Scrollable body -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <!-- ── Fix Status Row ────────────────────────────────────────── -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="14dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/ivFixIndicator"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_gps_fixed"
+                        android:layout_marginEnd="8dp"/>
+
+                    <TextView
+                        android:id="@+id/tvFixStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NO FIX"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+                        android:layout_marginEnd="16dp"/>
+
+                    <!-- Lat/Lon -->
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Position" android:textSize="10sp"
+                            android:textColor="?attr/colorOnSurfaceVariant" android:alpha="0.7"/>
+                        <TextView android:id="@+id/tvLatLon"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="—" android:textSize="12sp" android:textStyle="bold"/>
+                    </LinearLayout>
+
+                    <!-- Altitude -->
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:orientation="vertical" android:layout_marginStart="12dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Alt" android:textSize="10sp"
+                            android:textColor="?attr/colorOnSurfaceVariant" android:alpha="0.7"/>
+                        <TextView android:id="@+id/tvAltitude"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="— m" android:textSize="12sp" android:textStyle="bold"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ── Detailed GPS Metrics ──────────────────────────────────── -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Location Details"
+                        android:textSize="13sp" android:textStyle="bold"
+                        android:layout_marginBottom="10dp"/>
+
+                    <!-- Row 1 -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:layout_marginBottom="8dp">
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Accuracy" android:textSize="10sp" android:alpha="0.65"/>
+                            <TextView android:id="@+id/tvAccuracy"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="— m" android:textSize="14sp" android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Speed" android:textSize="10sp" android:alpha="0.65"/>
+                            <TextView android:id="@+id/tvSpeed"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="— km/h" android:textSize="14sp" android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Bearing" android:textSize="10sp" android:alpha="0.65"/>
+                            <TextView android:id="@+id/tvBearing"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="—°" android:textSize="14sp" android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Provider" android:textSize="10sp" android:alpha="0.65"/>
+                            <TextView android:id="@+id/tvProvider"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="—" android:textSize="14sp" android:textStyle="bold"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ── Satellite Summary ─────────────────────────────────────── -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Satellite Overview"
+                        android:textSize="13sp" android:textStyle="bold"
+                        android:layout_marginBottom="10dp"/>
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:layout_marginBottom="8dp">
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Visible" android:textSize="10sp" android:alpha="0.65"/>
+                            <TextView android:id="@+id/tvSatTotal"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="0" android:textSize="28sp" android:textStyle="bold"
+                                android:textColor="?attr/colorPrimary"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Used in Fix" android:textSize="10sp" android:alpha="0.65"/>
+                            <TextView android:id="@+id/tvSatUsed"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="0" android:textSize="28sp" android:textStyle="bold"
+                                android:textColor="@color/gps_fix_good"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Avg C/N₀" android:textSize="10sp" android:alpha="0.65"/>
+                            <TextView android:id="@+id/tvAvgCn0"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="— dB-Hz" android:textSize="13sp" android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Best C/N₀" android:textSize="10sp" android:alpha="0.65"/>
+                            <TextView android:id="@+id/tvMaxCn0"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="— dB-Hz" android:textSize="13sp" android:textStyle="bold"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Constellation breakdown -->
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Constellations" android:textSize="10sp" android:alpha="0.65"
+                        android:layout_marginTop="4dp"/>
+                    <TextView android:id="@+id/tvConstellations"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="—" android:textSize="12sp" android:layout_marginTop="2dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ── Sky Plot + Signal Bars ────────────────────────────────── -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Sky View" android:textSize="13sp" android:textStyle="bold"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="● Used in fix  ○ Visible"
+                            android:textSize="10sp" android:alpha="0.6"/>
+                    </LinearLayout>
+
+                    <!-- Sky plot -->
+                    <com.nineggps.ui.satellite.SkyView
+                        android:id="@+id/skyView"
+                        android:layout_width="match_parent"
+                        android:layout_height="260dp"
+                        android:layout_marginBottom="12dp"/>
+
+                    <!-- Signal strength bars -->
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Signal Strength (C/N₀)  —  green ≥35 dB-Hz  |  orange ≥20  |  red &lt;20"
+                        android:textSize="10sp" android:alpha="0.65"
+                        android:layout_marginBottom="4dp"/>
+
+                    <com.nineggps.ui.satellite.SignalBarsView
+                        android:id="@+id/signalBarsView"
+                        android:layout_width="match_parent"
+                        android:layout_height="90dp"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ── Per-Satellite Detail List ─────────────────────────────── -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="All Satellites"
+                        android:textSize="13sp" android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+
+                    <!-- Column headers -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:layout_marginBottom="4dp">
+                        <TextView android:layout_width="60dp" android:layout_height="wrap_content"
+                            android:text="PRN" android:textSize="10sp" android:alpha="0.55" android:textStyle="bold"/>
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="System" android:textSize="10sp" android:alpha="0.55" android:textStyle="bold"/>
+                        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+                            android:text="C/N₀" android:textSize="10sp" android:alpha="0.55" android:textStyle="bold"
+                            android:gravity="end"/>
+                        <TextView android:layout_width="55dp" android:layout_height="wrap_content"
+                            android:text="El" android:textSize="10sp" android:alpha="0.55" android:textStyle="bold"
+                            android:gravity="end"/>
+                        <TextView android:layout_width="55dp" android:layout_height="wrap_content"
+                            android:text="Az" android:textSize="10sp" android:alpha="0.55" android:textStyle="bold"
+                            android:gravity="end"/>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp"
+                        android:background="?attr/colorOutlineVariant" android:layout_marginBottom="4dp"/>
+
+                    <TextView android:id="@+id/tvNoSignal"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="Waiting for satellite data…"
+                        android:gravity="center" android:padding="24dp"
+                        android:alpha="0.55" android:visibility="visible"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvSatellites"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

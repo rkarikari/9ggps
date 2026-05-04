@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Custom view for the "Route via waypoints" ordered-selection dialog.
+    Top strip: live summary of selected stops in order.
+    Body: scrollable list of all saved waypoints.
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- Live "Stop 1 → Stop 2 → …" summary row -->
+    <TextView
+        android:id="@+id/tvOrderSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="4dp"
+        android:textSize="12sp"
+        android:textColor="?attr/colorPrimary"
+        android:textStyle="italic"
+        android:text="Tap waypoints below in the order to visit them."/>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="4dp"
+        android:background="?attr/colorOutline"/>
+
+    <!-- Scrollable waypoint list (max ~5 rows visible before scrolling) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvWaypointOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="320dp"
+        android:nestedScrollingEnabled="true"
+        android:overScrollMode="ifContentScrolls"
+        android:paddingBottom="4dp"/>
+
+</LinearLayout>

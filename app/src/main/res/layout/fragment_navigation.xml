@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Navigation"
+            app:navigationIcon="@drawable/ic_arrow_back"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Current location card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Current Location" android:textSize="11sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"/>
+                    <TextView android:id="@+id/tvCurrentLocation"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Acquiring GPS..." android:textSize="13sp" android:fontFamily="monospace"/>
+                    <TextView android:id="@+id/tvCurrentSpeed"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="0 km/h" android:textSize="13sp" android:textColor="?attr/colorPrimary"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Destination search -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Search destination"
+                android:layout_marginBottom="8dp"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:iconifiedByDefault="false"
+                    app:queryHint="Enter destination…"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:indeterminate="true"
+                android:visibility="gone"
+                style="@style/Widget.Material3.LinearProgressIndicator"/>
+
+            <!-- Search results -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/searchResultsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Routing options chips -->
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:singleSelection="true"
+                app:selectionRequired="true">
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipCar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🚗 Car"
+                    android:checkable="true"
+                    android:checked="true"
+                    style="@style/Widget.Material3.Chip.Filter"/>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipBike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🚲 Bike"
+                    android:checkable="true"
+                    style="@style/Widget.Material3.Chip.Filter"/>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipWalk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🚶 Walk"
+                    android:checkable="true"
+                    style="@style/Widget.Material3.Chip.Filter"/>
+            </com.google.android.material.chip.ChipGroup>
+
+            <!-- Route preview card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardRoutePreview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="?attr/colorPrimaryContainer">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Route Preview" android:textSize="13sp" android:textStyle="bold"
+                        android:textColor="?attr/colorOnPrimaryContainer" android:layout_marginBottom="8dp"/>
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:layout_marginBottom="8dp">
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                            <TextView android:id="@+id/tvRouteDistance"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="--" android:textSize="22sp" android:textStyle="bold"
+                                android:textColor="?attr/colorOnPrimaryContainer"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Distance" android:textSize="11sp"
+                                android:textColor="?attr/colorOnPrimaryContainer"/>
+                        </LinearLayout>
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                            <TextView android:id="@+id/tvRouteEta"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="--" android:textSize="22sp" android:textStyle="bold"
+                                android:textColor="?attr/colorOnPrimaryContainer"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Est. Time" android:textSize="11sp"
+                                android:textColor="?attr/colorOnPrimaryContainer"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView android:id="@+id/tvFirstInstruction"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="First instruction…" android:textSize="13sp"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:layout_marginBottom="8dp"/>
+
+                    <!-- Alternate routes horizontal scroller -->
+                    <TextView
+                        android:id="@+id/tvAlternatesLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Choose route:"
+                        android:textSize="11sp"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:layout_marginBottom="4dp"
+                        android:visibility="gone"/>
+
+                    <HorizontalScrollView
+                        android:id="@+id/scrollAlternates"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none"
+                        android:layout_marginBottom="12dp"
+                        android:visibility="gone">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvAlternateRoutes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:nestedScrollingEnabled="false"/>
+                    </HorizontalScrollView>
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnStartNavigation"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            android:text="Start Navigation"/>
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnCancelRoute"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Cancel"
+                            style="@style/Widget.Material3.Button.OutlinedButton"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Active navigation card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardActiveNav"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="@color/nav_card_bg">
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="16dp">
+
+                    <!-- Rerouting / traffic status row -->
+                    <LinearLayout
+                        android:id="@+id/layoutRerouteStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="6dp"
+                        android:visibility="gone">
+                        <ProgressBar
+                            android:id="@+id/pbRerouting"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:indeterminate="true"
+                            android:layout_marginEnd="6dp"
+                            style="?android:attr/progressBarStyleSmall"/>
+                        <TextView
+                            android:id="@+id/tvRerouteStatus"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="11sp"
+                            android:textColor="#FFFFFFFF"
+                            android:text="Recalculating route…"/>
+                        <TextView
+                            android:id="@+id/tvTrafficBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10sp"
+                            android:textColor="#FFFFFFFF"
+                            android:background="#40000000"
+                            android:paddingStart="6dp"
+                            android:paddingEnd="6dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"/>
+                    </LinearLayout>
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="● NAVIGATING" android:textSize="12sp" android:textColor="#FFFFFFFF"
+                        android:textStyle="bold" android:layout_marginBottom="8dp"/>
+
+                    <TextView android:id="@+id/tvActiveInstruction"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Continue straight" android:textSize="18sp"
+                        android:textColor="#FFFFFFFF" android:textStyle="bold"
+                        android:layout_marginBottom="4dp"/>
+
+                    <TextView android:id="@+id/tvActiveDistance"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="0 m" android:textSize="28sp" android:textColor="#FFFFFFFF"
+                        android:textStyle="bold"/>
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:layout_marginTop="8dp">
+                        <TextView android:id="@+id/tvActiveEta"
+                            android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:text="ETA --"
+                            android:textColor="#CCFFFFFF" android:textSize="13sp"/>
+                        <TextView android:id="@+id/tvActiveRemaining"
+                            android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:text="-- remaining"
+                            android:textColor="#CCFFFFFF" android:textSize="13sp"
+                            android:gravity="end"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStopNavigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Stop Navigation"
+                android:visibility="gone"
+                app:backgroundTint="@color/accent_red"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright © R.N.K 9G5AR RadioZport -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingVertical="7dp"
+    android:gravity="center_vertical">
+
+    <!-- PRN -->
+    <TextView
+        android:id="@+id/tvPrn"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="PRN 01"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:fontFamily="monospace"/>
+
+    <!-- Constellation badge -->
+    <TextView
+        android:id="@+id/tvConstellation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="GPS"
+        android:textSize="11sp"
+        android:textColor="#FFFFFF"
+        android:paddingHorizontal="6dp"
+        android:paddingVertical="2dp"
+        android:background="@drawable/bg_circle_dark"
+        android:gravity="center"/>
+
+    <!-- Signal bar + dB value -->
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="6dp">
+
+        <ProgressBar
+            android:id="@+id/signalBar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:max="100"
+            android:progress="0"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView
+            android:id="@+id/tvCn0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0.0 dB"
+            android:textSize="10sp"
+            android:gravity="end"
+            android:alpha="0.75"/>
+    </LinearLayout>
+
+    <!-- Elevation -->
+    <TextView
+        android:id="@+id/tvElevation"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:text="El: 0°"
+        android:textSize="11sp"
+        android:gravity="end"/>
+
+    <!-- Azimuth -->
+    <TextView
+        android:id="@+id/tvAzimuth"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:text="Az: 0°"
+        android:textSize="11sp"
+        android:gravity="end"/>
+
+    <!-- Frequency -->
+    <TextView
+        android:id="@+id/tvFrequency"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:text="—"
+        android:textSize="10sp"
+        android:gravity="end"
+        android:alpha="0.65"/>
+
+    <!-- Status icons: used in fix, almanac, ephemeris -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="4dp">
+
+        <ImageView
+            android:id="@+id/ivUsedInFix"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_gps_fixed"
+            android:tint="@color/gps_fix_good"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tvHasAlmanac"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A"
+            android:textSize="9sp"
+            android:textStyle="bold"
+            android:textColor="@color/accent_blue"
+            android:layout_marginStart="2dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tvHasEphemeris"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="E"
+            android:textSize="9sp"
+            android:textStyle="bold"
+            android:textColor="@color/accent_teal"
+            android:layout_marginStart="2dp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+</LinearLayout>

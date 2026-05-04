@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- ── GPS & Recording ──────────────────────────────── -->
+    <PreferenceCategory android:title="GPS &amp; Recording">
+
+        <ListPreference
+            android:key="activity_type"
+            android:title="@string/pref_activity_type"
+            android:entries="@array/activity_types"
+            android:entryValues="@array/activity_type_values"
+            android:defaultValue="DRIVING"
+            app:useSimpleSummaryProvider="true"/>
+
+        <SwitchPreferenceCompat
+            android:key="speed_limit_alerts"
+            android:title="@string/pref_speed_alerts"
+            android:summary="Warn when exceeding speed limits"
+            android:defaultValue="true"/>
+
+        <SwitchPreferenceCompat
+            android:key="battery_saver"
+            android:title="@string/pref_battery_saver"
+            android:summary="Reduce GPS update rate to save battery"
+            android:defaultValue="false"/>
+
+        <ListPreference
+            android:key="recording_min_accuracy"
+            android:title="Min. GPS accuracy to record"
+            android:summary="Discard fixes noisier than this threshold"
+            android:entries="@array/accuracy_threshold_labels"
+            android:entryValues="@array/accuracy_threshold_values"
+            android:defaultValue="30"
+            app:useSimpleSummaryProvider="true"/>
+
+    </PreferenceCategory>
+
+    <!-- ── Home & Auto-Record ─────────────────────────── -->
+
+    <!-- ── Home & Auto-Record ─────────────────────────── -->
+    <PreferenceCategory android:title="@string/pref_cat_auto_record">
+
+        <SwitchPreferenceCompat
+            android:key="home_auto_record"
+            android:title="@string/pref_home_auto_record"
+            android:summary="@string/pref_home_auto_record_summary"
+            android:defaultValue="false"/>
+
+        <Preference
+            android:key="home_set_location"
+            android:title="@string/pref_home_set_location"
+            android:summary="@string/pref_home_set_location_summary"
+            android:icon="@drawable/ic_my_location"/>
+
+        <Preference
+            android:key="home_clear_location"
+            android:title="@string/pref_home_clear_location"
+            android:summary="@string/pref_home_clear_location_summary"
+            android:icon="@drawable/ic_close"/>
+
+        <ListPreference
+            android:key="home_departure_radius"
+            android:title="@string/pref_home_departure_radius"
+            android:summary="@string/pref_home_departure_radius_summary"
+            android:entries="@array/home_radius_labels"
+            android:entryValues="@array/home_radius_values"
+            android:defaultValue="200"
+            app:useSimpleSummaryProvider="true"/>
+
+        <ListPreference
+            android:key="home_arrival_radius"
+            android:title="@string/pref_home_arrival_radius"
+            android:summary="@string/pref_home_arrival_radius_summary"
+            android:entries="@array/home_radius_labels"
+            android:entryValues="@array/home_radius_values"
+            android:defaultValue="150"
+            app:useSimpleSummaryProvider="true"/>
+
+        <ListPreference
+            android:key="home_min_trip_distance"
+            android:title="@string/pref_home_min_trip_distance"
+            android:summary="@string/pref_home_min_trip_distance_summary"
+            android:entries="@array/home_min_distance_labels"
+            android:entryValues="@array/home_min_distance_values"
+            android:defaultValue="500"
+            app:useSimpleSummaryProvider="true"/>
+
+        <ListPreference
+            android:key="home_min_trip_duration"
+            android:title="@string/pref_home_min_trip_duration"
+            android:summary="@string/pref_home_min_trip_duration_summary"
+            android:entries="@array/home_min_duration_labels"
+            android:entryValues="@array/home_min_duration_values"
+            android:defaultValue="60"
+            app:useSimpleSummaryProvider="true"/>
+
+    </PreferenceCategory>
+
+    <!-- ── About ─────────────────────────────────────────── -->
+    <PreferenceCategory android:title="About">
+
+        <Preference
+            android:key="about"
+            android:title="@string/pref_about"
+            android:summary="9G GPS v1.0.0"/>
+
+        <Preference
+            android:key="copyright"
+            android:title="Copyright"
+            android:summary="© R.N.K 9G5AR, RadioZport"
+            android:selectable="false"/>
+
+        <Preference
+            android:key="clear_data"
+            android:title="@string/pref_clear_data"
+            android:summary="Delete all tracks, waypoints and geofences"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

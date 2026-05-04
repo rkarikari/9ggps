@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mapFragment">
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.nineggps.ui.map.MapFragment"
+        android:label="Map"
+        tools:layout="@layout/fragment_map">
+
+        <!-- Waypoint navigation args — populated when WaypointsFragment sends the user
+             directly to the map to navigate to a saved waypoint.  Default values mean
+             existing deep-links that don't supply them are unaffected. -->
+        <argument
+            android:name="waypointName"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="waypointLat"
+            app:argType="float"
+            android:defaultValue="0.0" />
+        <argument
+            android:name="waypointLon"
+            app:argType="float"
+            android:defaultValue="0.0" />
+
+        <action
+            android:id="@+id/action_map_to_dashboard"
+            app:destination="@id/dashboardFragment"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/fade_out"/>
+
+        <action
+            android:id="@+id/action_map_to_satellite"
+            app:destination="@id/satelliteFragment"/>
+
+        <action
+            android:id="@+id/action_map_to_hud"
+            app:destination="@id/hudActivity"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.nineggps.ui.dashboard.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard">
+
+        <action android:id="@+id/action_dashboard_to_map"
+            app:destination="@id/mapFragment"
+            app:popUpTo="@id/mapFragment"
+            app:popUpToInclusive="false"
+            app:launchSingleTop="true"/>
+
+        <action android:id="@+id/action_dashboard_to_tracks"
+            app:destination="@id/tracksFragment"/>
+
+        <action android:id="@+id/action_dashboard_to_waypoints"
+            app:destination="@id/waypointsFragment"/>
+
+        <action android:id="@+id/action_dashboard_to_geofence"
+            app:destination="@id/geofenceFragment"/>
+
+        <action android:id="@+id/action_dashboard_to_settings"
+            app:destination="@id/settingsFragment"/>
+
+        <action android:id="@+id/action_dashboard_to_offline"
+            app:destination="@id/offlineMapFragment"/>
+
+        <action android:id="@+id/action_dashboard_to_satellite"
+            app:destination="@id/satelliteFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/satelliteFragment"
+        android:name="com.nineggps.ui.satellite.SatelliteFragment"
+        android:label="Satellite Status"
+        tools:layout="@layout/fragment_satellite"/>
+
+    <fragment
+        android:id="@+id/tracksFragment"
+        android:name="com.nineggps.ui.tracks.TracksFragment"
+        android:label="Tracks"
+        tools:layout="@layout/fragment_tracks">
+
+        <action android:id="@+id/action_tracks_to_trackDetail"
+            app:destination="@id/trackDetailFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/trackDetailFragment"
+        android:name="com.nineggps.ui.tracks.TrackDetailFragment"
+        android:label="Track Detail"
+        tools:layout="@layout/fragment_track_detail">
+
+        <argument
+            android:name="trackId"
+            app:argType="long"/>
+
+        <action
+            android:id="@+id/action_trackDetail_to_trackMap"
+            app:destination="@id/trackMapFragment"
+            app:enterAnim="@anim/slide_up"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/trackMapFragment"
+        android:name="com.nineggps.ui.tracks.TrackMapFragment"
+        android:label="Track Map">
+
+        <argument
+            android:name="trackId"
+            app:argType="long"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/waypointsFragment"
+        android:name="com.nineggps.ui.waypoints.WaypointsFragment"
+        android:label="Waypoints"
+        tools:layout="@layout/fragment_waypoints">
+
+        <!-- Navigate-arrow button: go back to map and start routing to the chosen waypoint -->
+        <action
+            android:id="@+id/action_waypoints_to_map"
+            app:destination="@id/mapFragment"
+            app:popUpTo="@id/mapFragment"
+            app:popUpToInclusive="false"
+            app:launchSingleTop="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/geofenceFragment"
+        android:name="com.nineggps.ui.geofence.GeofenceFragment"
+        android:label="Geofences"
+        tools:layout="@layout/fragment_geofence"/>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.nineggps.ui.settings.SettingsFragment"
+        android:label="Settings"/>
+
+    <fragment
+        android:id="@+id/offlineMapFragment"
+        android:name="com.nineggps.ui.offline.OfflineMapFragment"
+        android:label="Offline Maps"
+        tools:layout="@layout/fragment_offline_map"/>
+
+    <activity
+        android:id="@+id/hudActivity"
+        android:name="com.nineggps.ui.hud.HudActivity"
+        android:label="HUD"/>
+
+</navigation>

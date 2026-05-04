@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">9G GPS</string>
+
+    <!-- Navigation labels -->
+    <string name="nav_map">Map</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_tracks">Tracks</string>
+    <string name="nav_waypoints">Waypoints</string>
+    <string name="nav_geofence">Geofences</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Map -->
+    <string name="map_searching">Searching…</string>
+    <string name="map_no_fix">Acquiring GPS…</string>
+    <string name="map_route_calculating">Calculating route…</string>
+    <string name="map_navigation_started">Navigation started</string>
+    <string name="map_arrived">You have arrived!</string>
+    <string name="map_rerouting">Rerouting…</string>
+
+    <!-- Tracking -->
+    <string name="tracking_started">Track recording started</string>
+    <string name="tracking_paused">Track paused</string>
+    <string name="tracking_stopped">Track saved</string>
+    <string name="stop_recording_title">Stop Recording</string>
+    <string name="stop_recording_message">Stop and save the current track?</string>
+    <string name="btn_stop_save">Stop &amp; Save</string>
+    <string name="btn_keep_recording">Keep Recording</string>
+
+    <!-- Units -->
+    <string name="unit_kmh">km/h</string>
+    <string name="unit_mph">mph</string>
+    <string name="unit_knots">kn</string>
+    <string name="unit_ms">m/s</string>
+    <string name="unit_km">km</string>
+    <string name="unit_mi">mi</string>
+    <string name="unit_m">m</string>
+    <string name="unit_ft">ft</string>
+
+    <!-- Settings -->
+    <string name="pref_speed_unit">Speed Unit</string>
+    <string name="pref_distance_unit">Distance Unit</string>
+    <string name="pref_theme">Theme</string>
+    <string name="pref_map_type">Map Style</string>
+    <string name="pref_keep_screen_on">Keep Screen On</string>
+    <string name="pref_voice_guidance">Voice Guidance</string>
+    <string name="pref_speed_alerts">Speed Alerts</string>
+    <string name="pref_show_weather">Show Weather</string>
+    <string name="pref_routing_profile">Routing Profile</string>
+    <string name="pref_activity_type">Activity Type</string>
+    <string name="pref_offline_mode">Offline mode</string>
+    <string name="pref_offline_mode_summary">Use only pre-downloaded tiles — no network map requests</string>
+    <string name="pref_battery_saver">Battery Saver Mode</string>
+    <string name="pref_compass">Show Compass</string>
+    <string name="pref_map_orientation">Map Orientation</string>
+    <!-- 3-D perspective tilt -->
+    <string name="pref_3d_tilt">3D Perspective Tilt</string>
+    <string name="pref_3d_tilt_summary">Tilt the map into a 3D perspective view. Use the 3D FAB or two-finger swipe to adjust live.</string>
+    <string name="pref_avoid_tolls">Avoid Tolls</string>
+    <string name="pref_avoid_highways">Avoid Highways</string>
+    <string name="pref_about">About 9G GPS</string>
+    <string name="app_copyright">© R.N.K 9G5AR RadioZport</string>
+    <string name="pref_clear_data">Clear All Data</string>
+
+    <!-- Offline Maps -->
+    <string name="pref_offline_maps">Offline Maps</string>
+    <string name="pref_offline_maps_summary">Download map tiles for use without internet</string>
+    <string name="offline_maps_title">Offline Maps</string>
+    <string name="offline_select_area_label">Select Download Area</string>
+    <string name="offline_map_hint">Pan and zoom to the area you want to save</string>
+    <string name="offline_region_name_hint">Region Name (optional)</string>
+    <string name="offline_zoom_levels_label">Zoom Levels</string>
+    <string name="offline_zoom_min_label">Min</string>
+    <string name="offline_zoom_max_label">Max</string>
+    <string name="offline_tile_estimate">Estimated tiles: ~%d</string>
+    <string name="offline_tile_estimate_placeholder">Estimated tiles: –</string>
+    <string name="offline_region_default_name">Region %d</string>
+    <string name="offline_saved_regions_label">Saved Regions</string>
+    <string name="offline_no_regions">No offline regions saved yet.\nDownload an area above to use maps without internet.</string>
+    <string name="offline_btn_download">Download Area</string>
+    <string name="offline_btn_cancel">Cancel Download</string>
+    <string name="offline_btn_delete">Delete</string>
+    <string name="offline_delete_title">Delete Region</string>
+    <string name="offline_delete_message">Delete &#8220;%s&#8221;? The cached tiles on disk are not removed.</string>
+    <string name="offline_download_progress">%1$d / %2$d tiles downloaded</string>
+    <string name="offline_download_complete">Region saved: %s</string>
+    <string name="offline_download_error">Download error: %s</string>
+    <string name="offline_large_area_title">Large Download</string>
+    <string name="offline_large_area_message">This area contains ~%d tiles and may take a long time. Continue?</string>
+    <string name="offline_status_complete">Complete</string>
+    <string name="offline_status_incomplete">Incomplete</string>
+
+    <!-- Errors -->
+    <string name="error_no_gps">GPS signal not available</string>
+    <string name="error_no_network">No internet connection</string>
+    <string name="error_route_failed">Could not calculate route</string>
+    <string name="error_location_permission">Location permission is required</string>
+
+    <!-- Notification -->
+    <string name="notif_tracking_title">GPS Tracking Active</string>
+    <string name="notif_navigation_title">Navigating</string>
+    <!-- Alternate routes / rerouting -->
+    <string name="nav_rerouting">Recalculating route\u2026</string>
+    <string name="nav_rerouting_traffic">Recalculating \u2014 better route found\u2026</string>
+    <string name="nav_off_route">Off route \u2014 recalculating\u2026</string>
+    <string name="nav_choose_route">Choose route:</string>
+    <string name="notif_geofence_title">Geofence Alert</string>
+
+    <!-- Activity types -->
+    <string-array name="activity_types">
+        <item>Driving</item>
+        <item>Cycling</item>
+        <item>Running</item>
+        <item>Walking</item>
+        <item>Hiking</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="activity_type_values">
+        <item>DRIVING</item>
+        <item>CYCLING</item>
+        <item>RUNNING</item>
+        <item>WALKING</item>
+        <item>HIKING</item>
+        <item>OTHER</item>
+    </string-array>
+
+    <string-array name="speed_units">
+        <item>km/h</item>
+        <item>mph</item>
+        <item>Knots</item>
+        <item>m/s</item>
+    </string-array>
+
+    <string-array name="speed_unit_values">
+        <item>KMH</item>
+        <item>MPH</item>
+        <item>KNOTS</item>
+        <item>MS</item>
+    </string-array>
+
+    <string-array name="distance_units">
+        <item>Metric (km / m)</item>
+        <item>Imperial (mi / ft)</item>
+    </string-array>
+
+    <string-array name="distance_unit_values">
+        <item>METRIC</item>
+        <item>IMPERIAL</item>
+    </string-array>
+
+    <string-array name="theme_modes">
+        <item>Follow System</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+
+    <string-array name="theme_mode_values">
+        <item>SYSTEM</item>
+        <item>LIGHT</item>
+        <item>DARK</item>
+    </string-array>
+
+    <string-array name="map_types">
+        <item>Standard</item>
+        <item>Satellite</item>
+        <item>Terrain</item>
+        <item>Night</item>
+    </string-array>
+
+    <string-array name="map_type_values">
+        <item>STANDARD</item>
+        <item>SATELLITE</item>
+        <item>TERRAIN</item>
+        <item>NIGHT</item>
+    </string-array>
+
+    <string-array name="routing_profiles">
+        <item>Car</item>
+        <item>Bicycle</item>
+        <item>Foot</item>
+    </string-array>
+
+    <string-array name="routing_profile_values">
+        <item>car</item>
+        <item>bike</item>
+        <item>foot</item>
+    </string-array>
+
+    <string-array name="map_orientations">
+        <item>North-up (fixed)</item>
+        <item>Heading-up (follows bearing)</item>
+    </string-array>
+
+    <string-array name="map_orientation_values">
+        <item>NORTH</item>
+        <item>DIRECTION</item>
+    </string-array>
+
+    <!-- 3-D tilt level options -->
+
+    <!-- ── Home Auto-Record strings ───────────────────────────────────────── -->
+    <string name="pref_cat_auto_record">Home &amp; Auto-Record</string>
+    <string name="pref_home_auto_record">Auto-Record Trips</string>
+    <string name="pref_home_auto_record_summary">Automatically start recording when you leave home and stop when you return</string>
+    <string name="pref_home_set_location">Set Home Location</string>
+    <string name="pref_home_set_location_summary">Use current GPS position as your home</string>
+    <string name="pref_home_clear_location">Clear Home Location</string>
+    <string name="pref_home_clear_location_summary">Remove the saved home location</string>
+    <string name="pref_home_departure_radius">Departure Radius</string>
+    <string name="pref_home_departure_radius_summary">Distance from home that triggers recording start</string>
+    <string name="pref_home_arrival_radius">Arrival Radius</string>
+    <string name="pref_home_arrival_radius_summary">Distance from home that triggers recording stop</string>
+    <string name="pref_home_min_trip_distance">Minimum Trip Distance</string>
+    <string name="pref_home_min_trip_distance_summary">Trips shorter than this are discarded automatically</string>
+    <string name="pref_home_min_trip_duration">Minimum Trip Duration</string>
+    <string name="pref_home_min_trip_duration_summary">Trips shorter than this duration are discarded automatically</string>
+
+    <!-- Home location status messages -->
+    <string name="home_location_set">Home set to current location</string>
+    <string name="home_location_set_no_fix">No GPS fix yet — move outdoors and try again</string>
+    <string name="home_location_cleared">Home location cleared</string>
+    <string name="home_location_none_set">No home location saved yet</string>
+    <string name="home_auto_record_requires_home">Set a home location first to use auto-record</string>
+
+    <!-- Home radius options -->
+    <string-array name="home_radius_labels">
+        <item>50 m</item>
+        <item>100 m</item>
+        <item>150 m</item>
+        <item>200 m</item>
+        <item>300 m</item>
+        <item>500 m</item>
+    </string-array>
+    <string-array name="home_radius_values">
+        <item>50</item>
+        <item>100</item>
+        <item>150</item>
+        <item>200</item>
+        <item>300</item>
+        <item>500</item>
+    </string-array>
+
+    <!-- Minimum trip distance options -->
+    <string-array name="home_min_distance_labels">
+        <item>None (keep all)</item>
+        <item>200 m</item>
+        <item>500 m</item>
+        <item>1 km</item>
+        <item>2 km</item>
+        <item>5 km</item>
+    </string-array>
+    <string-array name="home_min_distance_values">
+        <item>0</item>
+        <item>200</item>
+        <item>500</item>
+        <item>1000</item>
+        <item>2000</item>
+        <item>5000</item>
+    </string-array>
+
+    <!-- Minimum trip duration options -->
+    <string-array name="home_min_duration_labels">
+        <item>None (keep all)</item>
+        <item>30 seconds</item>
+        <item>1 minute</item>
+        <item>2 minutes</item>
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+    </string-array>
+    <string-array name="home_min_duration_values">
+        <item>0</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>300</item>
+        <item>600</item>
+    </string-array>
+    <!-- ── GPS accuracy threshold options (recording_min_accuracy preference) ── -->
+    <string-array name="accuracy_threshold_labels">
+        <item>Strict – 10 m (high-precision GNSS only)</item>
+        <item>Normal – 20 m (recommended outdoors)</item>
+        <item>Relaxed – 30 m (default, good urban balance)</item>
+        <item>Lenient – 50 m (poor signal / indoor use)</item>
+        <item>Off – 100 m (accept all fixes)</item>
+    </string-array>
+    <string-array name="accuracy_threshold_values">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>50</item>
+        <item>100</item>
+    </string-array>
+
+    <string name="offline_btn_browse_regions">🌍  Browse Regions (Organic Maps style)</string>
+    <string name="offline_organic_select_continent">Select Continent</string>
+    <string name="offline_organic_region_title">Download %s</string>
+    <string name="offline_organic_region_message">Estimated download size: %1$s\nZoom levels: %2$d – %3$d\n\nDownload now, or tap Adjust Zoom to change levels first.</string>
+    <string name="offline_organic_adjust_zoom">Adjust Zoom</string>
+
+</resources>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand -->
+    <color name="primary">#1565C0</color>
+    <color name="primary_dark">#0D47A1</color>
+    <color name="primary_light">#42A5F5</color>
+    <color name="secondary">#FF6F00</color>
+    <color name="accent_green">#4CAF50</color>
+    <color name="accent_red">#F44336</color>
+    <color name="accent_orange">#FF9800</color>
+    <color name="accent_blue">#2196F3</color>
+    <color name="accent_purple">#9C27B0</color>
+    <color name="accent_teal">#009688</color>
+
+    <!-- GPS Signal -->
+    <color name="gps_fix_good">#4CAF50</color>
+    <color name="gps_fix_fair">#FFC107</color>
+    <color name="gps_fix_bad">#F44336</color>
+
+    <!-- Recording States -->
+    <color name="record_idle_color">#2196F3</color>
+    <color name="record_active_color">#F44336</color>
+    <color name="record_paused_color">#FF9800</color>
+
+    <!-- Card / Surface -->
+    <color name="card_bg">#CC1A1A2E</color>
+    <color name="surface">#FF1A1A2E</color>
+    <color name="surface_light">#FFFFFFFF</color>
+    <color name="card_bg_light">#CCFFFFFF</color>
+
+    <!-- Navigation Card -->
+    <color name="nav_card_bg">#E61565C0</color>
+    <color name="nav_text">#FFFFFFFF</color>
+    <color name="nav_text_secondary">#CCFFFFFF</color>
+
+    <!-- Text -->
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#AAFFFFFF</color>
+    <color name="text_primary_light">#FF212121</color>
+    <color name="text_secondary_light">#FF757575</color>
+
+    <!-- Map -->
+    <color name="route_color">#FF2196F3</color>
+    <color name="waypoint_color">#FFF44336</color>
+    <color name="geofence_color">#664CAF50</color>
+
+    <!-- Material Design 3 -->
+    <color name="md_theme_light_primary">#1565C0</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#D3E4FF</color>
+    <color name="md_theme_light_onPrimaryContainer">#001B3C</color>
+    <color name="md_theme_light_secondary">#545F70</color>
+    <color name="md_theme_light_onSecondary">#FFFFFF</color>
+    <color name="md_theme_light_secondaryContainer">#D8E3F8</color>
+    <color name="md_theme_light_onSecondaryContainer">#111C2B</color>
+    <color name="md_theme_light_background">#FAFCFF</color>
+    <color name="md_theme_light_onBackground">#1A1C1E</color>
+    <color name="md_theme_light_surface">#FAFCFF</color>
+    <color name="md_theme_light_onSurface">#1A1C1E</color>
+    <color name="md_theme_light_surfaceVariant">#DFE2EB</color>
+    <color name="md_theme_light_onSurfaceVariant">#43474E</color>
+    <color name="md_theme_light_outline">#73777F</color>
+    <color name="md_theme_light_error">#BA1A1A</color>
+    <color name="md_theme_light_onError">#FFFFFF</color>
+
+    <color name="md_theme_dark_primary">#A3C9FF</color>
+    <color name="md_theme_dark_onPrimary">#00305E</color>
+    <color name="md_theme_dark_primaryContainer">#004785</color>
+    <color name="md_theme_dark_onPrimaryContainer">#D3E4FF</color>
+    <color name="md_theme_dark_secondary">#BBC7DB</color>
+    <color name="md_theme_dark_onSecondary">#253140</color>
+    <color name="md_theme_dark_secondaryContainer">#3C4858</color>
+    <color name="md_theme_dark_onSecondaryContainer">#D8E3F8</color>
+    <color name="md_theme_dark_background">#1A1C1E</color>
+    <color name="md_theme_dark_onBackground">#E2E2E6</color>
+    <color name="md_theme_dark_surface">#1A1C1E</color>
+    <color name="md_theme_dark_onSurface">#E2E2E6</color>
+    <color name="md_theme_dark_surfaceVariant">#43474E</color>
+    <color name="md_theme_dark_onSurfaceVariant">#C3C7CF</color>
+    <color name="md_theme_dark_outline">#8D9199</color>
+    <color name="md_theme_dark_error">#FFB4AB</color>
+    <color name="md_theme_dark_onError">#690005</color>
+</resources>

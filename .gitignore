@@ -1,0 +1,12 @@
+# Ignore a specific folder
+.gradle/
+.idea/
+.kotlin/
+
+# Ignore multiple folders
+app/build/
+app/release/
+build/
+
+# Ignore nested folder anywhere
+# **/temp/
