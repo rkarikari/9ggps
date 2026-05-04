@@ -326,6 +326,21 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardOfflineMaps"
+                    android:layout_width="0dp" android:layout_height="100dp"
+                    android:layout_weight="1" android:layout_marginHorizontal="3dp"
+                    app:cardCornerRadius="16dp" android:clickable="true" android:focusable="true">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                        android:orientation="vertical" android:gravity="center">
+                        <ImageView android:layout_width="36dp" android:layout_height="36dp"
+                            android:src="@drawable/ic_layers" android:tint="?attr/colorPrimary"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Offline Maps" android:textSize="13sp" android:textStyle="bold"
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardSettings"
                     android:layout_width="0dp" android:layout_height="100dp"
                     android:layout_weight="1" android:layout_marginStart="6dp"

@@ -48,6 +48,12 @@ class MapViewModel @Inject constructor(
     val distanceUnit: Flow<String> = userPreferences.distanceUnit
     val showWeather: Flow<Boolean> = userPreferences.showWeather
     val mapOrientation: Flow<String> = userPreferences.mapOrientation
+
+    // ─── Persisted map layer & zoom ───────────────────────────────────────────
+    /** Flow of the last-selected tile-source id; restores across sessions. */
+    val mapLayerId: Flow<String> = userPreferences.mapLayerId
+    /** Flow of the last zoom level; restores across sessions. */
+    val mapZoomLevel: Flow<Double> = userPreferences.mapZoomLevel
     val offlineMode: Flow<Boolean> = userPreferences.offlineMode
 
     /** Whether the home auto-record feature is enabled in Settings. */
@@ -334,7 +340,16 @@ class MapViewModel @Inject constructor(
     /** Last centre the user had on screen; null until the first view is created. */
     private var _savedMapCenterLat: Double? = null
     private var _savedMapCenterLon: Double? = null
+    /** Last zoom level the user had on screen; initialised from DataStore so it survives process death. */
     private var _savedMapZoom: Double = 15.0
+
+    init {
+        // Seed the in-memory zoom from DataStore so a fresh process also restores
+        // the previous zoom level, not just within-session navigation.
+        viewModelScope.launch {
+            _savedMapZoom = userPreferences.mapZoomLevel.first()
+        }
+    }
 
     val savedMapCenterLat: Double? get() = _savedMapCenterLat
     val savedMapCenterLon: Double? get() = _savedMapCenterLon
@@ -345,6 +360,13 @@ class MapViewModel @Inject constructor(
         _savedMapCenterLat = lat
         _savedMapCenterLon = lon
         _savedMapZoom      = zoom
+        // Also persist to DataStore so it survives process death.
+        viewModelScope.launch { userPreferences.setMapZoomLevel(zoom) }
+    }
+
+    /** Persist the selected tile-source layer by its stable id. */
+    fun saveMapLayer(layerId: String) {
+        viewModelScope.launch { userPreferences.setMapLayerId(layerId) }
     }
 
     fun setMapType(type: MapType) {

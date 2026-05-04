@@ -15,10 +15,6 @@ import org.osmdroid.tileprovider.tilesource.XYTileSource
  *   some osmdroid builds (`tile.openstreetmap.org` without sub-domains), which
  *   is aggressively rate-limited. The explicit three-subdomain definition below
  *   distributes requests across a/b/c per the OSM tile usage policy.
- * • CyclOSM / Topo (Relief): The previous delegation to the factory caused the
- *   wrong internal source name to be cached in osmdroid's tile store, so the
- *   tile provider could not match on-disk tiles to the in-memory source and
- *   fell back to grey tiles without triggering a network fetch.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 object MapLayers {
@@ -73,33 +69,6 @@ object MapLayers {
         "© OpenStreetMap contributors © CARTO"
     )
 
-    // ─── CyclOSM ─────────────────────────────────────────────────────────────
-    // Fixed: explicit tile-size (256 px) declared so osmdroid uses the correct
-    // internal cache key, matching what the server delivers.
-    val CYCLOSM = XYTileSource(
-        "CyclOSM", 0, 20, 256, ".png",
-        arrayOf(
-            "https://a.tile-cyclosm.openstreetmap.fr/cyclosm/",
-            "https://b.tile-cyclosm.openstreetmap.fr/cyclosm/",
-            "https://c.tile-cyclosm.openstreetmap.fr/cyclosm/"
-        ),
-        "© OpenStreetMap contributors, CyclOSM"
-    )
-
-    // ─── Topo / Relief (OpenTopoMap) ─────────────────────────────────────────
-    // Max zoom 17 per OpenTopoMap usage policy.
-    // Fixed: source name now matches the tile-cache folder, resolving the cache
-    // mismatch that produced grey tiles on first load.
-    val OPEN_TOPO = XYTileSource(
-        "OpenTopoMap", 0, 17, 256, ".png",
-        arrayOf(
-            "https://a.tile.opentopomap.org/",
-            "https://b.tile.opentopomap.org/",
-            "https://c.tile.opentopomap.org/"
-        ),
-        "© OpenStreetMap contributors, SRTM | © OpenTopoMap (CC-BY-SA)"
-    )
-
     // ─── Named-layer descriptor ───────────────────────────────────────────────
 
     data class NamedLayer(
@@ -115,9 +84,7 @@ object MapLayers {
         NamedLayer("OSM Standard",       OSM_STANDARD,   "OSMMapnik"),
         NamedLayer("Voyager (Organic)",   CARTO_VOYAGER,  "CartoVoyager"),
         NamedLayer("Positron (Clean)",    CARTO_POSITRON, "CartoPositron"),
-        NamedLayer("Dark Matter",         CARTO_DARK,     "CartoDark"),
-        NamedLayer("CyclOSM",             CYCLOSM,        "CyclOSM"),
-        NamedLayer("Topo (Relief)",       OPEN_TOPO,      "OpenTopoMap")
+        NamedLayer("Dark Matter",         CARTO_DARK,     "CartoDark")
     )
 
     /** Resolve a persisted layer id back to a [NamedLayer]. Falls back to OSM Standard. */

@@ -80,6 +80,16 @@ object NineGpxExporter {
         val trkEl = doc.createElement("trk")
         trkEl.appendChild(doc.createElement("name").apply { textContent = track.name })
         trkEl.appendChild(doc.createElement("type").apply { textContent = track.activityType })
+        // Track-level extensions: preserve stats that cannot be recomputed on import
+        val trkExtensions = doc.createElement("extensions")
+        trkExtensions.appendChild(doc.createElement("maxSpeed").apply {
+            // stored in m/s to match per-point <speed> convention
+            textContent = (track.maxSpeed / 3.6f).toString()
+        })
+        trkExtensions.appendChild(doc.createElement("calories").apply {
+            textContent = track.calories.toString()
+        })
+        trkEl.appendChild(trkExtensions)
 
         val trkseg = doc.createElement("trkseg")
         points.forEach { point ->
@@ -164,7 +174,9 @@ object NineGpxExporter {
     data class ImportResult(
         val trackName: String,
         val points: List<ImportPoint>,
-        val waypoints: List<ImportWaypoint>
+        val waypoints: List<ImportWaypoint>,
+        val calories: Int = 0,
+        val trackMaxSpeed: Float = 0f   // km/h, from track-level <extensions>; used as fallback
     )
 
     data class ImportPoint(
@@ -221,7 +233,7 @@ object NineGpxExporter {
         val handler = object : DefaultHandler() {
             override fun startElement(uri: String, localName: String, qName: String, attrs: Attributes) {
                 currentText = StringBuilder()
-                when (qName) {
+                when (localName.ifEmpty { qName }) {
                     "Placemark" -> { inPlacemark = true; placeName = ""; placeDesc = "" }
                     "LineString" -> inLineString = true
                     "Point" -> inPoint = true
@@ -231,7 +243,7 @@ object NineGpxExporter {
 
             override fun endElement(uri: String, localName: String, qName: String) {
                 val text = currentText.toString().trim()
-                when (qName) {
+                when (localName.ifEmpty { qName }) {
                     "name" -> if (inPlacemark) placeName = text else trackName = text
                     "description" -> if (inPlacemark) placeDesc = text
                     "coordinates" -> {
@@ -268,7 +280,7 @@ object NineGpxExporter {
             }
         }
 
-        val saxFactory = SAXParserFactory.newInstance()
+        val saxFactory = SAXParserFactory.newInstance().also { it.isNamespaceAware = true }
         val parser = saxFactory.newSAXParser()
         parser.parse(stream, handler)
 
@@ -285,24 +297,35 @@ object NineGpxExporter {
         val waypoints = mutableListOf<ImportWaypoint>()
 
         var inTrkseg = false
+        var inTrkpt = false
+        var inTrkptExtensions = false
+        var inTrkExtensions = false
         var inWpt = false
         var currentLat = 0.0
         var currentLon = 0.0
         var currentAlt = 0.0
         var currentTime = 0L
+        var currentSpeed = 0f   // m/s, read from <trkpt><extensions><speed>
         var currentText = StringBuilder()
         var wptName = ""
         var wptDesc = ""
+        var parsedCalories = 0
+        var parsedMaxSpeedMs = 0f   // m/s from track-level <extensions><maxSpeed>
 
         val handler = object : DefaultHandler() {
             override fun startElement(uri: String, localName: String, qName: String, attrs: Attributes) {
                 currentText = StringBuilder()
-                when (qName) {
+                when (localName.ifEmpty { qName }) {
                     "trkseg" -> inTrkseg = true
                     "trkpt" -> {
+                        inTrkpt = true
                         currentLat = attrs.getValue("lat")?.toDoubleOrNull() ?: 0.0
                         currentLon = attrs.getValue("lon")?.toDoubleOrNull() ?: 0.0
-                        currentAlt = 0.0; currentTime = 0L
+                        currentAlt = 0.0; currentTime = 0L; currentSpeed = 0f
+                    }
+                    "extensions" -> {
+                        if (inTrkpt) inTrkptExtensions = true
+                        else if (inTrkseg.not()) inTrkExtensions = true
                     }
                     "wpt" -> {
                         inWpt = true
@@ -315,17 +338,27 @@ object NineGpxExporter {
 
             override fun endElement(uri: String, localName: String, qName: String) {
                 val text = currentText.toString().trim()
-                when (qName) {
+                when (localName.ifEmpty { qName }) {
                     "name" -> if (inWpt) wptName = text else if (!inTrkseg) trackName = text
                     "ele" -> currentAlt = text.toDoubleOrNull() ?: 0.0
                     "time" -> {
                         currentTime = try { parseIso.parse(text)?.time ?: 0L } catch (e: Exception) { 0L }
                     }
                     "desc" -> if (inWpt) wptDesc = text
+                    // Per-point speed (m/s) from <trkpt><extensions><speed>
+                    "speed" -> if (inTrkptExtensions) currentSpeed = text.toFloatOrNull() ?: 0f
+                    // Track-level extensions written by exportTrack()
+                    "maxSpeed" -> if (inTrkExtensions) parsedMaxSpeedMs = text.toFloatOrNull() ?: 0f
+                    "calories" -> if (inTrkExtensions) parsedCalories = text.toIntOrNull() ?: 0
+                    "extensions" -> {
+                        inTrkptExtensions = false
+                        inTrkExtensions = false
+                    }
                     "trkpt" -> {
                         if (currentLat != 0.0 || currentLon != 0.0) {
-                            points.add(ImportPoint(currentLat, currentLon, currentAlt, currentTime))
+                            points.add(ImportPoint(currentLat, currentLon, currentAlt, currentTime, currentSpeed))
                         }
+                        inTrkpt = false
                     }
                     "wpt" -> {
                         waypoints.add(ImportWaypoint(wptName, currentLat, currentLon, currentAlt, wptDesc))
@@ -340,10 +373,16 @@ object NineGpxExporter {
             }
         }
 
-        val saxFactory = SAXParserFactory.newInstance()
+        val saxFactory = SAXParserFactory.newInstance().also { it.isNamespaceAware = true }
         val parser = saxFactory.newSAXParser()
         parser.parse(stream, handler)
 
-        return ImportResult(trackName, points, waypoints)
+        return ImportResult(
+            trackName    = trackName,
+            points       = points,
+            waypoints    = waypoints,
+            calories     = parsedCalories,
+            trackMaxSpeed = parsedMaxSpeedMs * 3.6f   // convert m/s → km/h
+        )
     }
 }

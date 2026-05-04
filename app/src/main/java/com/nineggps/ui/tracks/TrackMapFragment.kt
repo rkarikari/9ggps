@@ -22,6 +22,7 @@ import com.nineggps.utils.MapLayers
 import com.nineggps.utils.NineGUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
@@ -65,7 +66,8 @@ class TrackMapFragment : Fragment(R.layout.fragment_track_map) {
 
     private fun setupMap() {
         binding.trackMapFull.apply {
-            // OSM Standard — the original 9ggps v1 default, consistent with MapFragment.
+            // OSM Standard as the immediate default; the persisted layer is
+            // applied asynchronously once DataStore delivers its first value.
             setTileSource(MapLayers.OSM_STANDARD)
             setMultiTouchControls(true)
             zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
@@ -83,6 +85,15 @@ class TrackMapFragment : Fragment(R.layout.fragment_track_map) {
             maxZoomLevel = 21.0
             isTilesScaledToDpi = true
             controller.setZoom(14.0)
+        }
+
+        // Restore the persisted tile-source so the track is always rendered on
+        // whichever layer the user last chose — both here and in the main map.
+        viewLifecycleOwner.lifecycleScope.launch {
+            val layerId = viewModel.mapLayerId.first()
+            currentLayerIndex = MapLayers.ALL.indexOfFirst { it.id == layerId }.coerceAtLeast(0)
+            binding.trackMapFull.setTileSource(MapLayers.ALL[currentLayerIndex].source)
+            binding.trackMapFull.invalidate()
         }
     }
 
@@ -193,8 +204,11 @@ class TrackMapFragment : Fragment(R.layout.fragment_track_map) {
             .setTitle("Map Layer")
             .setItems(labels) { _, which ->
                 currentLayerIndex = which
-                binding.trackMapFull.setTileSource(MapLayers.ALL[which].source)
+                val selectedLayer = MapLayers.ALL[which]
+                binding.trackMapFull.setTileSource(selectedLayer.source)
                 binding.trackMapFull.invalidate()
+                // Persist so both the track map and the main map restore this layer.
+                viewModel.saveMapLayer(selectedLayer.id)
             }
             .show()
     }

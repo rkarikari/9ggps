@@ -69,6 +69,12 @@ class UserPreferences @Inject constructor(
         val USER_NAME = stringPreferencesKey("user_name")
         val OFFLINE_MODE = booleanPreferencesKey("offline_mode")
 
+        // ─── Map Layer & Zoom Persistence ─────────────────────────────────────
+        /** Stable id of the last tile-source selected by the user (matches MapLayers.NamedLayer.id). */
+        val MAP_LAYER_ID = stringPreferencesKey("map_layer_id")
+        /** Last zoom level the user had on the map view — persisted so it survives process death. */
+        val MAP_ZOOM_LEVEL = doublePreferencesKey("map_zoom_level")
+
         // ─── Home Auto-Record ──────────────────────────────────────────────────
         /** Master toggle: automatically start/stop recording based on home proximity. */
         val HOME_AUTO_RECORD = booleanPreferencesKey("home_auto_record")
@@ -173,6 +179,16 @@ class UserPreferences @Inject constructor(
         .catch { if (it is IOException) emit(emptyPreferences()) else throw it }
         .map { it[OFFLINE_MODE] ?: false }
 
+    /** The tile-source id last selected by the user; defaults to OSMMapnik (OSM Standard). */
+    val mapLayerId: Flow<String> = dataStore.data
+        .catch { if (it is IOException) emit(emptyPreferences()) else throw it }
+        .map { it[MAP_LAYER_ID] ?: "OSMMapnik" }
+
+    /** The zoom level last used by the user on the main map; defaults to 15.0. */
+    val mapZoomLevel: Flow<Double> = dataStore.data
+        .catch { if (it is IOException) emit(emptyPreferences()) else throw it }
+        .map { it[MAP_ZOOM_LEVEL] ?: 15.0 }
+
 
     // ─── Home Auto-Record Flows ───────────────────────────────────────────────
 
@@ -237,6 +253,8 @@ class UserPreferences @Inject constructor(
     suspend fun setAvoidTolls(value: Boolean) = dataStore.edit { it[AVOID_TOLLS] = value }
     suspend fun setAvoidHighways(value: Boolean) = dataStore.edit { it[AVOID_HIGHWAYS] = value }
     suspend fun setOfflineMode(value: Boolean) = dataStore.edit { it[OFFLINE_MODE] = value }
+    suspend fun setMapLayerId(id: String) = dataStore.edit { it[MAP_LAYER_ID] = id }
+    suspend fun setMapZoomLevel(zoom: Double) = dataStore.edit { it[MAP_ZOOM_LEVEL] = zoom }
 
     // ─── Home Auto-Record Setters ─────────────────────────────────────────────
 

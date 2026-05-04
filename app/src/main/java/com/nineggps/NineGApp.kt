@@ -121,15 +121,16 @@ class NineGApp : Application(), WorkConfiguration.Provider {
         }
 
         // ── OSMDroid ──────────────────────────────────────────────────────────
-        // A browser-like User-Agent is required for tile servers that reject the
-        // package-name default (e.g. Google tile CDN).
+        // OSM tile-server policy (osm.wiki/Blocked) requires an honest,
+        // app-identifying User-Agent.  Spoofing a browser UA (Chrome, Firefox,
+        // etc.) is explicitly listed as a blocking reason — which caused the
+        // 'Access blocked' error seen at runtime.  Correct format:
+        //   AppName/version (platform; contact-or-repo-URL)
         // tileFileSystemCacheMaxBytes caps on-device tile storage at 200 MB;
         // tileFileSystemCacheTrimBytes is the target size after a trim pass.
         Configuration.getInstance().apply {
             load(this@NineGApp, getSharedPreferences("osmdroid", Context.MODE_PRIVATE))
-            userAgentValue = "Mozilla/5.0 (Linux; Android 10) " +
-                "AppleWebKit/537.36 (KHTML, like Gecko) " +
-                "Chrome/120.0.0.0 Mobile Safari/537.36"
+            userAgentValue = "9GGPS/${BuildConfig.VERSION_NAME} (Android; https://github.com/rkarikari/9ggps)"
             isDebugMode = BuildConfig.DEBUG
             osmdroidBasePath = filesDir
             osmdroidTileCache = cacheDir

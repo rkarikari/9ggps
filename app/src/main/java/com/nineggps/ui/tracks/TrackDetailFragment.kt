@@ -24,6 +24,7 @@ import com.nineggps.data.db.entity.TrackEntity
 import com.nineggps.data.db.entity.TrackPointEntity
 import com.nineggps.data.repository.TrackRepository
 import com.nineggps.databinding.FragmentTrackDetailBinding
+import com.nineggps.data.prefs.UserPreferences
 import com.nineggps.utils.NineGUtils
 import com.nineggps.utils.NineGpxExporter
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +44,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TrackDetailViewModel @Inject constructor(
-    private val repository: TrackRepository
+    private val repository: TrackRepository,
+    private val userPreferences: UserPreferences
 ) : ViewModel() {
 
     private val _track = MutableStateFlow<TrackEntity?>(null)
@@ -51,6 +53,15 @@ class TrackDetailViewModel @Inject constructor(
 
     private val _points = MutableStateFlow<List<TrackPointEntity>>(emptyList())
     val points: StateFlow<List<TrackPointEntity>> = _points
+
+    // ─── Map layer persistence ─────────────────────────────────────────────────
+    /** The stable id of the last tile-source selected across the whole app. */
+    val mapLayerId: Flow<String> = userPreferences.mapLayerId
+
+    /** Persist the tile-source selection so it's restored on the next visit. */
+    fun saveMapLayer(layerId: String) {
+        viewModelScope.launch { userPreferences.setMapLayerId(layerId) }
+    }
 
     fun loadTrack(id: Long) {
         viewModelScope.launch {

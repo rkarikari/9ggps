@@ -33,7 +33,25 @@
         app:fabSize="mini"
         app:elevation="6dp"/>
 
-    <!-- Track name + stats chip -->
+    <!-- Layer picker button — anchored below the back button (top|start) so its
+         position is fixed relative to the top of the screen and can never overlap
+         the stats strip at the bottom regardless of card height or nav bar size.
+         btnMapClose: marginTop=16dp + height=40dp → bottom at 56dp.
+         This button: marginTop=72dp → top at 72dp (8dp gap). -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnMapLayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="72dp"
+        android:contentDescription="Map layer"
+        app:srcCompat="@drawable/ic_layers"
+        app:backgroundTint="?attr/colorSurface"
+        app:tint="?attr/colorOnSurface"
+        app:fabSize="mini"
+        app:elevation="6dp"/>
+
     <LinearLayout
         android:id="@+id/layoutMapInfo"
         android:layout_width="wrap_content"
@@ -66,21 +84,6 @@
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
-
-    <!-- Layer picker button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnMapLayer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:layout_marginBottom="80dp"
-        android:contentDescription="Map layer"
-        app:srcCompat="@drawable/ic_layers"
-        app:backgroundTint="?attr/colorSurface"
-        app:tint="?attr/colorOnSurface"
-        app:fabSize="mini"
-        app:elevation="6dp"/>
 
     <!-- Center on track -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

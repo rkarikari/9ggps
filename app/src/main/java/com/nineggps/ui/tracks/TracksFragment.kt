@@ -76,6 +76,7 @@ class TracksViewModel @Inject constructor(
         _importState.value = ImportState.Importing
         try {
             val result = NineGpxExporter.importGpx(context, uri)
+                .takeIf { it != null && it.points.isNotEmpty() }
                 ?: NineGpxExporter.importKml(context, uri)
 
             if (result == null || result.points.isEmpty()) {
@@ -120,11 +121,14 @@ class TracksViewModel @Inject constructor(
                 distance      = dist,
                 duration      = duration,
                 avgSpeed      = avgSpeedKmh.toFloat(),
-                maxSpeed      = maxSpeed * 3.6f,
+                // Per-point maxSpeed (m/s → km/h); fall back to track-level value from <extensions>
+                // for files that omit per-point speed data (e.g. KML, third-party GPX).
+                maxSpeed      = if (maxSpeed > 0f) maxSpeed * 3.6f else result.trackMaxSpeed,
                 minAltitude   = minAlt,
                 maxAltitude   = maxAlt,
                 elevationGain = elevGain,
                 elevationLoss = elevLoss,
+                calories      = result.calories,
                 pointCount    = pts.size,
                 activityType  = "IMPORTED"
             )
@@ -138,7 +142,7 @@ class TracksViewModel @Inject constructor(
                     latitude  = pt.lat,
                     longitude = pt.lon,
                     altitude  = pt.alt,
-                    speed     = pt.speed / 3.6f,   // store in m/s
+                    speed     = pt.speed,          // already in m/s from <trkpt><extensions><speed>
                     bearing   = 0f,
                     accuracy  = 5f,
                     timestamp = pt.timestamp

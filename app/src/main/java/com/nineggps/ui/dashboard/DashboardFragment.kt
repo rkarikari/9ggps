@@ -81,6 +81,9 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         binding.cardSettings.setOnClickListener {
             findNavController().navigate(R.id.action_dashboard_to_settings)
         }
+        binding.cardOfflineMaps.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboard_to_offline)
+        }
         binding.cardSatellite.setOnClickListener {
             findNavController().navigate(R.id.action_dashboard_to_satellite)
         }

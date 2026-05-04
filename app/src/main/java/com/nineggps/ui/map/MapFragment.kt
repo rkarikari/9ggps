@@ -144,17 +144,36 @@ class MapFragment : Fragment() {
     private fun setupMap() {
         mapView = binding.mapView
         // OSM Standard (Mapnik) — the original 9ggps v1 default, restored here.
+        // OSM Standard as the immediate default; the persisted layer (if any)
+        // is applied asynchronously below once DataStore delivers its first value.
         mapView.setTileSource(com.nineggps.utils.MapLayers.OSM_STANDARD)
         mapView.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
         mapView.setMultiTouchControls(true)
         mapView.setScrollableAreaLimitLatitude(MapView.getTileSystem().maxLatitude, MapView.getTileSystem().minLatitude, 0)
         mapView.isTilesScaledToDpi = true
 
+        // Restore the persisted tile-source layer so it survives back-navigation
+        // and process death.  Applied after the default is set so there's no
+        // blank-map flash even if DataStore is slow.
+        viewLifecycleOwner.lifecycleScope.launch {
+            val layerId = viewModel.mapLayerId.first()
+            val layer = com.nineggps.utils.MapLayers.fromId(layerId)
+            if (layer.source.name() != mapView.tileProvider.tileSource?.name()) {
+                mapView.setTileSource(layer.source)
+                mapView.invalidate()
+            }
+        }
+
         // Restore the camera to wherever the user was before navigating away.
         // Priority order:
         //   1. ViewModel saved position  (best — exact last view)
-        //   2. Last known GPS fix        (good — at least not (0,0))
+        //   2. Last known GPS fix        (good — at least not (0,0))\
         //   3. Zoom-only at (0,0)        (last resort — first cold launch with no fix yet)
+        //
+        // Zoom is set synchronously from the in-memory value first so the map is
+        // immediately usable, then overwritten asynchronously from DataStore to cover
+        // the case where the ViewModel was freshly created (e.g. after process death
+        // or bottom-nav recreation) and _savedMapZoom is still the 15.0 default.
         val savedLat = viewModel.savedMapCenterLat
         val savedLon = viewModel.savedMapCenterLon
         mapView.controller.setZoom(viewModel.savedMapZoom)
@@ -175,6 +194,14 @@ class MapFragment : Fragment() {
                 // If loc is null here the map will sit at (0,0) briefly until the
                 // first GPS event fires and snaps it — unavoidable on a true cold start.
             }
+        }
+
+        // DataStore read — overrides the in-memory zoom once the value is available.
+        // This is the authoritative restore path for process-death and bottom-nav
+        // recreation where the ViewModel starts fresh with _savedMapZoom = 15.0.
+        viewLifecycleOwner.lifecycleScope.launch {
+            val persistedZoom = viewModel.mapZoomLevel.first()
+            mapView.controller.setZoom(persistedZoom)
         }
 
         // Rotation gesture (two-finger twist)
@@ -995,8 +1022,11 @@ class MapFragment : Fragment() {
                 .setTitle("Map Layer")
                 .setItems(items) { _, which ->
                     if (which < com.nineggps.utils.MapLayers.ALL.size) {
-                        mapView.setTileSource(com.nineggps.utils.MapLayers.ALL[which].source)
+                        val selectedLayer = com.nineggps.utils.MapLayers.ALL[which]
+                        mapView.setTileSource(selectedLayer.source)
                         mapView.invalidate()
+                        // Persist so returning to the map view restores this layer.
+                        viewModel.saveMapLayer(selectedLayer.id)
                     } else {
                         viewLifecycleOwner.lifecycleScope.launch {
                             val newState = !viewModel.offlineMode.first()
@@ -1114,6 +1144,11 @@ class MapFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         mapView.onPause()
+        // Save camera on every pause so the zoom is always written to DataStore
+        // before the fragment goes to the background — onDestroyView may arrive
+        // too late relative to the DataStore coroutine dispatcher.
+        val centre = mapView.mapCenter
+        viewModel.saveMapCamera(centre.latitude, centre.longitude, mapView.zoomLevelDouble)
     }
 
     override fun onDestroyView() {
