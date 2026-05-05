@@ -10,9 +10,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nineggps.data.db.entity.TrackEntity
 import com.nineggps.data.db.entity.WaypointEntity
+import com.nineggps.data.db.entity.SpeedCameraEntity
 import com.nineggps.data.model.*
 import com.nineggps.data.prefs.UserPreferences
 import com.nineggps.data.repository.NavigationRepository
+import com.nineggps.data.repository.SpeedCameraRepository
 import com.nineggps.data.repository.TrackRepository
 import com.nineggps.service.GpsTrackingService
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +29,8 @@ class MapViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val trackRepository: TrackRepository,
     private val navigationRepository: NavigationRepository,
-    private val userPreferences: UserPreferences
+    private val userPreferences: UserPreferences,
+    private val speedCameraRepository: SpeedCameraRepository
 ) : ViewModel() {
 
     // ─── Live GPS / Service State ──────────────────────────────────────────────
@@ -104,6 +107,17 @@ class MapViewModel @Inject constructor(
     val savedWaypoints: StateFlow<List<WaypointEntity>> = trackRepository
         .getAllWaypoints()
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+    // ─── Speed Cameras ────────────────────────────────────────────────────────
+
+    /** All locally-stored speed cameras — drives the map overlay. */
+    val speedCameras: StateFlow<List<SpeedCameraEntity>> = speedCameraRepository
+        .getAllCameras()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    /** Whether the camera overlay is toggled on by the user. */
+    val showSpeedCameras: StateFlow<Boolean> = userPreferences.showSpeedCameras
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
     // ─── Search ───────────────────────────────────────────────────────────────
 

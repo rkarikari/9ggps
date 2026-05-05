@@ -7,8 +7,8 @@ plugins {
 }
 
 // ── Single source of truth for app version ────────────────────────────────────
-val appVersion = "1.10"
-val appVersionCode = 110
+val appVersion = "1.11"
+val appVersionCode = 111
 
 android {
     namespace = "com.nineggps"

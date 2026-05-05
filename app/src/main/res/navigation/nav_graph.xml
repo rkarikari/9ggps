@@ -71,6 +71,12 @@
 
         <action android:id="@+id/action_dashboard_to_satellite"
             app:destination="@id/satelliteFragment"/>
+
+        <action android:id="@+id/action_dashboard_to_speedcamera"
+            app:destination="@id/speedCameraFragment"/>
+
+        <action android:id="@+id/action_dashboard_to_navigation"
+            app:destination="@id/navigationFragment"/>
     </fragment>
 
     <fragment
@@ -151,5 +157,17 @@
         android:id="@+id/hudActivity"
         android:name="com.nineggps.ui.hud.HudActivity"
         android:label="HUD"/>
+
+    <fragment
+        android:id="@+id/speedCameraFragment"
+        android:name="com.nineggps.ui.speedcamera.SpeedCameraFragment"
+        android:label="Speed Cameras"
+        tools:layout="@layout/fragment_speed_camera"/>
+
+    <fragment
+        android:id="@+id/navigationFragment"
+        android:name="com.nineggps.ui.navigation.NavigationFragment"
+        android:label="Navigate"
+        tools:layout="@layout/fragment_navigation"/>
 
 </navigation>

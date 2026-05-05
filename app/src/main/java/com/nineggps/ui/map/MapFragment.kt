@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
+import android.graphics.drawable.BitmapDrawable
 import android.Manifest
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -31,6 +32,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.nineggps.R
+import com.nineggps.data.db.entity.SpeedCameraEntity
 import com.nineggps.data.db.entity.WaypointEntity
 import com.nineggps.data.model.*
 import com.nineggps.databinding.FragmentMapBinding
@@ -76,6 +78,11 @@ class MapFragment : Fragment() {
     private val waypointMarkers = mutableListOf<Marker>()
     private val viaWaypointMarkers = mutableListOf<Marker>()
     private var speedometerOverlay: SpeedometerOverlay? = null
+
+    /** FolderOverlay holding all speed-camera markers. Rebuilt when the camera list changes. */
+    private var speedCameraOverlay: FolderOverlay? = null
+    /** Cached camera-icon bitmap, created once and reused for every marker. */
+    private var speedCameraBitmap: Bitmap? = null
 
     // ── Map orientation & compass rotation state ───────────────────────────────
     private var currentOrientMode = "NORTH"
@@ -571,6 +578,17 @@ class MapFragment : Fragment() {
                             updateAutoRecordUI(enabled, active, stats)
                         }
                 }
+
+                // Speed camera overlay — redrawn whenever the list or visibility toggles.
+                launch {
+                    combine(
+                        viewModel.speedCameras,
+                        viewModel.showSpeedCameras
+                    ) { cameras, show -> Pair(cameras, show) }
+                        .collectLatest { (cameras, show) ->
+                            updateSpeedCameraOverlay(cameras, show)
+                        }
+                }
             }
         }
     }
@@ -791,6 +809,78 @@ class MapFragment : Fragment() {
     private fun clearViaWaypointMarkers() {
         viaWaypointMarkers.forEach { mapView.overlays.remove(it) }
         viaWaypointMarkers.clear()
+    }
+
+    // ─── Speed Camera Overlay ─────────────────────────────────────────────────
+
+    /**
+     * Rebuilds the speed-camera [FolderOverlay] from [cameras] and adds it
+     * to the map, or removes it entirely when [show] is false.
+     *
+     * Uses a [FolderOverlay] so all camera markers are managed as a single
+     * overlay entry, making bulk removal O(1).  Each marker shows the posted
+     * speed limit as its title and the camera type + coordinates as a snippet.
+     */
+    private fun updateSpeedCameraOverlay(
+        cameras: List<SpeedCameraEntity>,
+        show: Boolean
+    ) {
+        // Remove existing overlay first.
+        speedCameraOverlay?.let { mapView.overlays.remove(it) }
+        speedCameraOverlay = null
+
+        if (!show || cameras.isEmpty()) {
+            mapView.invalidate()
+            return
+        }
+
+        val icon = getSpeedCameraDrawable()
+        val folder = FolderOverlay()
+        cameras.forEach { cam ->
+            val marker = Marker(mapView).apply {
+                position = GeoPoint(cam.latitude, cam.longitude)
+                setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+                this.icon = icon
+                title = if (cam.speedLimit > 0) "${cam.speedLimit} km/h" else "Speed Camera"
+                snippet = buildString {
+                    append(cam.type)
+                    if (cam.road.isNotBlank()) append(" · ${cam.road}")
+                    if (cam.isVerified) append(" ✓")
+                }
+                // Tap a marker to see the info window; do not consume map touch events.
+                setOnMarkerClickListener { m, _ ->
+                    if (m.isInfoWindowShown) m.closeInfoWindow() else m.showInfoWindow()
+                    true
+                }
+            }
+            folder.add(marker)
+        }
+
+        speedCameraOverlay = folder
+        mapView.overlays.add(folder)
+        mapView.invalidate()
+    }
+
+    /**
+     * Returns a [BitmapDrawable] of the speed-camera icon scaled to 32 × 32 dp,
+     * creating and caching the bitmap on first call.
+     */
+    private fun getSpeedCameraDrawable(): BitmapDrawable {
+        if (speedCameraBitmap == null || speedCameraBitmap!!.isRecycled) {
+            val sizePx = (32 * resources.displayMetrics.density).toInt()
+            val src = ContextCompat.getDrawable(requireContext(), R.drawable.ic_speed_camera)
+                ?: return BitmapDrawable(resources, Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888))
+            val bmp = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bmp)
+            // Tint in the theme's error colour so cameras are visually distinct from waypoints.
+            val tintColor = ContextCompat.getColor(requireContext(),
+                com.google.android.material.R.color.design_default_color_error)
+            src.setTint(tintColor)
+            src.setBounds(0, 0, sizePx, sizePx)
+            src.draw(canvas)
+            speedCameraBitmap = bmp
+        }
+        return BitmapDrawable(resources, speedCameraBitmap)
     }
 
     // ─── Route Preview ────────────────────────────────────────────────────────
@@ -1161,6 +1251,9 @@ class MapFragment : Fragment() {
         myLocationOverlay?.disableMyLocation()
         mapView.overlays.clear()
         mapView.onDetach()
+        // Recycle speed-camera icon bitmap to free native memory.
+        speedCameraBitmap?.recycle()
+        speedCameraBitmap = null
         _binding = null
     }
 }

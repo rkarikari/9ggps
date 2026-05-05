@@ -47,20 +47,47 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Destination search -->
-            <com.google.android.material.textfield.TextInputLayout
+            <!-- Destination search
+                 NOTE: SearchView must NOT be nested inside TextInputLayout.
+                 TextInputLayout overrides child layout in a way that leaves the
+                 SearchView's internal background Drawable null, causing a
+                 NullPointerException in SearchView's OnLayoutChangeListener
+                 (getPadding() on null Drawable) during the first layout pass.
+                 The outlined-box look is reproduced here with a stroke-bordered
+                 MaterialCardView so no Kotlin changes are required. -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Search destination"
                 android:layout_marginBottom="8dp"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/searchView"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="0dp"
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp"
+                app:cardBackgroundColor="?attr/colorSurface">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:iconifiedByDefault="false"
-                    app:queryHint="Enter destination…"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Search destination"
+                        android:textSize="12sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="6dp"/>
+
+                    <androidx.appcompat.widget.SearchView
+                        android:id="@+id/searchView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:iconifiedByDefault="false"
+                        app:queryHint="Enter destination…"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <ProgressBar
                 android:id="@+id/progressBar"

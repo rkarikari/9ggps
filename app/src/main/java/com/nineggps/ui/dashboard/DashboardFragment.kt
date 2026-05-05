@@ -88,10 +88,10 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             findNavController().navigate(R.id.action_dashboard_to_satellite)
         }
         binding.cardNavigation.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboard_to_map)
+            findNavController().navigate(R.id.action_dashboard_to_navigation)
         }
         binding.cardSpeedCamera.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboard_to_map)
+            findNavController().navigate(R.id.action_dashboard_to_speedcamera)
         }
     }
 

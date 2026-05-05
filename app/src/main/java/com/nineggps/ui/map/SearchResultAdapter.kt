@@ -10,9 +10,17 @@ import com.nineggps.data.model.SearchResult
 import com.nineggps.databinding.ItemSearchResultBinding
 
 class SearchResultAdapter(
-    private val results: List<SearchResult>,
+    results: List<SearchResult> = emptyList(),
     private val onItemClick: (SearchResult) -> Unit
 ) : RecyclerView.Adapter<SearchResultAdapter.ViewHolder>() {
+
+    private val results: MutableList<SearchResult> = results.toMutableList()
+
+    fun updateResults(newResults: List<SearchResult>) {
+        results.clear()
+        results.addAll(newResults)
+        notifyDataSetChanged()
+    }
 
     inner class ViewHolder(private val binding: ItemSearchResultBinding) :
         RecyclerView.ViewHolder(binding.root) {

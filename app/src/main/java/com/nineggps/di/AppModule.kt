@@ -7,6 +7,7 @@ import com.nineggps.BuildConfig
 import com.nineggps.data.db.AppDatabase
 import com.nineggps.data.db.dao.*
 import com.nineggps.data.network.NominatimApi
+import com.nineggps.data.repository.SpeedCameraRepository
 import com.nineggps.data.network.OpenWeatherApi
 import com.nineggps.data.network.OsrmApi
 import com.google.android.gms.location.*
@@ -46,6 +47,13 @@ object AppModule {
     @Provides fun provideGeofenceDao(db: AppDatabase): GeofenceDao = db.geofenceDao()
     @Provides fun provideSpeedCameraDao(db: AppDatabase): SpeedCameraDao = db.speedCameraDao()
     @Provides fun provideOfflineRegionDao(db: AppDatabase): OfflineRegionDao = db.offlineRegionDao()
+
+    @Provides
+    @Singleton
+    fun provideSpeedCameraRepository(
+        dao: SpeedCameraDao,
+        okHttpClient: OkHttpClient
+    ): SpeedCameraRepository = SpeedCameraRepository(dao, okHttpClient)
 
     // ─── Network ──────────────────────────────────────────────────────────────
 

@@ -273,4 +273,12 @@ class UserPreferences @Inject constructor(
     suspend fun setHomeArrivalRadiusM(value: Float) = dataStore.edit { it[HOME_ARRIVAL_RADIUS_M] = value.coerceAtLeast(50f) }
     suspend fun setHomeMinTripDistanceM(value: Float) = dataStore.edit { it[HOME_MIN_TRIP_DISTANCE_M] = value.coerceAtLeast(0f) }
     suspend fun setHomeMinTripDurationS(value: Long) = dataStore.edit { it[HOME_MIN_TRIP_DURATION_S] = value.coerceAtLeast(0L) }
+
+    // ─── Speed Camera Setters ─────────────────────────────────────────────────
+
+    val showSpeedCameras: Flow<Boolean> = dataStore.data
+        .catch { if (it is IOException) emit(emptyPreferences()) else throw it }
+        .map { it[SHOW_SPEED_CAMERAS] ?: true }
+
+    suspend fun setShowSpeedCameras(value: Boolean) = dataStore.edit { it[SHOW_SPEED_CAMERAS] = value }
 }

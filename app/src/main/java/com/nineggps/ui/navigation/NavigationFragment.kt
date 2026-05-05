@@ -208,6 +208,7 @@ class NavigationFragment : Fragment(R.layout.fragment_navigation) {
     private val viewModel: NavigationViewModel by viewModels()
 
     private lateinit var alternateAdapter: AlternateRouteAdapter
+    private lateinit var searchResultsAdapter: com.nineggps.ui.map.SearchResultAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -249,6 +250,13 @@ class NavigationFragment : Fragment(R.layout.fragment_navigation) {
     }
 
     private fun setupSearch() {
+        // A LayoutManager is mandatory — without one the RecyclerView renders nothing.
+        searchResultsAdapter = com.nineggps.ui.map.SearchResultAdapter { showRouteOptions(it) }
+        binding.searchResultsList.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = searchResultsAdapter
+        }
+
         binding.searchView.setOnQueryTextListener(
             object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(q: String?): Boolean { q?.let { viewModel.search(it) }; return true }
@@ -290,8 +298,7 @@ class NavigationFragment : Fragment(R.layout.fragment_navigation) {
                 launch {
                     viewModel.searchResults.collectLatest { results ->
                         binding.searchResultsList.isVisible = results.isNotEmpty()
-                        binding.searchResultsList.adapter =
-                            com.nineggps.ui.map.SearchResultAdapter(results) { showRouteOptions(it) }
+                        searchResultsAdapter.updateResults(results)
                     }
                 }
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Show on map toggle — rendered as an action view with a SwitchCompat -->
+    <item
+        android:id="@+id/action_show_on_map"
+        android:title="Show on Map"
+        app:showAsAction="always"
+        app:actionLayout="@layout/action_show_on_map"/>
+
+    <item
+        android:id="@+id/action_import_osm"
+        android:title="Import from OpenStreetMap"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_clear_all"
+        android:title="Clear All Cameras"
+        app:showAsAction="never"/>
+
+</menu>
